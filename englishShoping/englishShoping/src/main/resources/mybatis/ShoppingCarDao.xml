@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.shop.englishShoping.mapper.ShoppingCarDao">
+<select id="getList" resultType="com.it.shop.englishShoping.domain.ShoppingCar" parameterType="string">
+  SELECT s1.id,s1.userid,s1.productid,s1.count,s2.sname,s2.price,s2.imgurl,s2.number FROM shoppingcar s1,product s2 WHERE
+s1.productid = s2.id and s1.userid = #{uid}
+</select>
+
+  <select id="countByNumber"   parameterType="string" resultType="integer">
+    SELECT count(s1.count) FROM shoppingcar s1,product s2 WHERE
+      s1.productid = s2.id and s1.userid = #{uid}
+  </select>
+
+  <select id="countByMoney"   parameterType="string" resultType="double">
+    SELECT SUM(s2.price*s1.count) as money FROM shoppingcar s1,product s2 WHERE s1.productid = s2.id and s1.userid = #{uid}
+  </select>
+
+
+  <update id="updateCount" >
+  update shoppingcar  set count = #{count} where id=#{id};
+  </update>
+
+    <delete id="deleteById" parameterType="string">
+        delete from  shoppingcar where id = #{id}
+    </delete>
+
+  <select id="getByProductId" parameterType="string" resultType="com.it.shop.englishShoping.domain.ShoppingCar">
+    select * from  shoppingcar where productid=#{pid} and userid =#{uid};
+  </select>
+
+</mapper>

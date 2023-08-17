@@ -1,0 +1,45 @@
+spring:
+  application:
+    name: englishShopping
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/english_shopping?useSSL=false&serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true
+    password: wenjia20000801
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 10MB
+      max-request-size: 10MB
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    timeout: 60000
+    lettuce:
+      pool:
+        max-active: 4
+        max-idle: 4
+        max-wait: 1000ms
+        min-idle: 2
+      shutdown-timeout: 100ms
+  cache:
+    cache-names: users
+    redis:
+      time-to-live: 60000
+
+server:
+  port: 15010
+  servlet:
+    context-path: /api
+mybatis-plus:
+  mapper-locations: classpath:mybatis/*.xml
+  configuration:
+    map-underscore-to-camel-case: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+#dir: /usr/local/modules/baby/img/
+dir: /Users/xsqin/Desktop/graduation design/new3/gra/vue2-Mimall-main/vue-user/src/assets/imgs/ProjectImg/
+

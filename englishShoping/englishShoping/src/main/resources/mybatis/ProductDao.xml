@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.shop.englishShoping.mapper.ProductDao">
+<select id="getList" resultType="com.it.shop.englishShoping.domain.Product">
+    SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id and s1.number > 0  and s1.code!='2'  and s1.code!='3'
+</select>
+
+    <select id="getListAll" resultType="com.it.shop.englishShoping.domain.Product">
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id
+    </select>
+  <select id="getById" resultType="com.it.shop.englishShoping.domain.Product"   parameterType="string">
+      SELECT s1.*,s2.tname,s3.name as shop from product s1,type s2,shop s3 WHERE s1.typeid = s2.id and s1.pinglinid = s3.id  and s1.id = #{id}
+  </select>
+
+    <select id="getByTypeList" resultType="com.it.shop.englishShoping.domain.Product"   parameterType="string">
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id  and s1.code!='2'  and s1.code!='3' and s1.typeid = #{typeid}
+    </select>
+
+    <select id="getBySearch" resultType="com.it.shop.englishShoping.domain.Product"   parameterType="string">
+
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id and s1.code!='2'  and s1.code!='3' and s1.sname like #{text}
+        OR s1.price like #{text}   OR  s2.tname LIKE #{text}
+    </select>
+
+    <update id="updateByNumber" parameterType="string">
+        update product set number = #{number} where id = #{id}
+    </update>
+
+    <update id="updateByCode" parameterType="string">
+        update product set code = #{code} where id = #{id}
+    </update>
+
+    <select id="getByPriceList" resultType="com.it.shop.englishShoping.domain.Product">
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id and s1.number > 0  and s1.code!='2'  and s1.code!='3' ORDER BY s1.price desc
+    </select>
+
+    <select id="getByPriceList2" resultType="com.it.shop.englishShoping.domain.Product">
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id and s1.number > 0  and s1.code!='2'  and s1.code!='3' ORDER BY s1.price asc
+    </select>
+<!--    ORDER BY s1.pinglinid desc-->
+    <select id="getBytimeList" resultType="com.it.shop.englishShoping.domain.Product">
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id and s1.number > 0  and s1.code!='2'  and s1.code!='3'
+    </select>
+    <select id="getListAllTwo" resultType="com.it.shop.englishShoping.domain.Product">
+        SELECT s1.*,s2.tname from product s1,type s2 WHERE s1.typeid = s2.id  and pinglinid =#{id}
+    </select>
+
+    <select id="findBySearch" parameterType="string" resultType="com.it.shop.englishShoping.domain.Product">
+        select * from product where LOWER(sname) like LOWER(#{search}) OR  price  like LOWER(search) OR  LOWER(title) like LOWER(search)
+    </select>
+
+</mapper>
+
+

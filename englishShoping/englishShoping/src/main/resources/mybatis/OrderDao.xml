@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.shop.englishShoping.mapper.OrderDao">
+
+<update id="updateByStatus" parameterType="string" >
+    update orders set status = #{status}
+                  <if test="null != expree and '' != expree">
+                      ,expree = #{expree}
+                  </if>
+                  where id = #{id}
+</update>
+
+<select id="getListByStatus" parameterType="string" resultType="com.it.shop.englishShoping.domain.Order">
+    select s1.id as id ,s1.expree as expree, s1.userid as userid,s1.productid as productid,s1.kid as kid,s1.status as status ,
+    s1.number as number ,s1.money as money, s1.time as time ,s1.addressid as addressid ,s2.sname as sname,s2.imgurl as imgurl,
+    s3.name as shopname,s3.imgurl as shopimg,s4.address as addText,s4.phone as addPhone,s4.name as addName ,s4.email as addEmail
+    from orders s1  LEFT JOIN address s4 on s4.id = s1.addressid    ,product s2,shop s3 where s1.productid = s2.id
+    and s1.userid = #{uid} and s3.id = s2.pinglinid
+   <if test="null !=status and '' != status">
+       and s1.status = #{status}
+   </if>
+
+</select>
+
+    <select id="getListByStatusById" parameterType="string" resultType="com.it.shop.englishShoping.domain.Order">
+        select s1.id as id ,s1.expree as expree, s1.userid as userid,s1.productid as productid,s1.kid as kid,s1.status as status ,
+        s1.number as number ,s1.money as money, s1.time as time ,s1.addressid as addressid ,s2.sname as sname,s2.imgurl as imgurl,
+        s3.name as shopname,s3.imgurl as shopimg,s4.address as addText,s4.phone as addPhone,s4.name as addName ,s4.email as addEmail
+        from orders s1  LEFT JOIN address s4 on s4.id = s1.addressid    ,product s2,shop s3 where s1.productid = s2.id
+         and s3.id = s2.pinglinid
+        and s1.id = #{id}
+    </select>
+
+<select id="getListByTime" parameterType="string" resultType="com.it.shop.englishShoping.domain.Order">
+    select s1.id as id ,s1.userid as userid, s1.expree as expree, s1.productid asproductid,s1.kid as kid,s1.status as status , s1.number as number ,s1.money as money, s1.time as time
+ ,s1.addressid as addressid ,s2.sname as sname ,s2.imgurl as imgurl
+    from orders s1,product s2 where s1.productid = s2.id  order by s1.time desc
+    </select>
+
+    <select id="getListByStatusorPid" parameterType="string" resultType="com.it.shop.englishShoping.domain.Order">
+        select s1.id as id , s1.expree as expree, s3.name as userid,s2.sname as productid,s1.kid as kid,s1.status as status , s1.number as number ,s1.money as money, s1.time as time,s1.addressid as addressid ,s2.sname as sname,s2.imgurl as imgurl
+        from orders s1,product s2,user s3 where s1.productid = s2.id and s1.userid= s3.id
+        <if test="null != pinglinid and '' != pinglinid">
+            and s2.pinglinid = #{pinglinid}
+        </if>
+        and s1.kid !='2'
+    </select>
+
+
+    <select id="getListByStatusorPid2" parameterType="string" resultType="com.it.shop.englishShoping.domain.Order">
+        select s1.id as id ,s1.expree as expree, s1.userid as userid,s1.productid as productid,s1.kid as kid,s1.status as status ,
+        s1.number as number ,s1.money as money, s1.time as time ,s1.addressid as addressid ,s2.sname as sname,s2.imgurl as imgurl,
+        s3.name as shopname,s3.imgurl as shopimg,s4.address as addText,s4.phone as addPhone,s4.name as addName ,s4.email as addEmail
+        from orders s1  LEFT JOIN address s4 on s4.id = s1.addressid    ,product s2,shop s3 where s1.productid = s2.id
+        and s3.id = s2.pinglinid
+        <if test="null != pinglinid and '' != pinglinid">
+           and s2.pinglinid = #{pinglinid}
+        </if>
+          order by s1.time desc
+    </select>
+
+
+    <select id="getByPidFindByTime" parameterType="string" resultType="string">
+        SELECT time FROM `orders` where productid =#{pid} and status = '1' and time like #{time}
+    </select>
+</mapper>

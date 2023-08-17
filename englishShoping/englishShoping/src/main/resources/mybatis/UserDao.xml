@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.it.shop.englishShoping.mapper.UserDao">
+<select id="getListUser" resultType="com.it.shop.englishShoping.domain.User"  parameterType="integer">
+  select  * from user
+    <if test="null !=code and ''!=code ">
+        where code = #{code}
+    </if>
+</select>
+  <select id="loginUser" resultType="com.it.shop.englishShoping.domain.User"   parameterType="string">
+      select  * from user where username = #{username} and password  =#{password}
+  </select>
+<update id="updateByMoney" >
+    update user set money = #{money} where id = #{id}
+</update>
+    <select id="getById" resultType="com.it.shop.englishShoping.domain.User"  parameterType="string">
+        select  * from user where id = #{id}
+    </select>
+
+    <update id="updateByNumber" parameterType="string">
+        update user set number= #{number} where id = #{id}
+    </update>
+
+    <update id="updateByIdToImgurl" parameterType="string">
+        update user set imgurl = #{imgurl} where id = #{id}
+    </update>
+
+    <select id="getPhoneByPassword" parameterType="string" resultType="string">
+        select password from user where phone = #{phone}
+    </select>
+
+</mapper>
